@@ -4,7 +4,7 @@ import prettytable as pt
 
 
 def request_football(league, *args, **kwargs):
-    print(league, *args)
+    # print(league, *args)
 
     payload = {'dtype': 'json', 'league': league, 'key': "f56664adf87b8f37f0b3d132604dcd0f"}
     r = requests.get('http://op.juhe.cn/onebox/football/league', params=payload)
@@ -57,13 +57,13 @@ def entrance(keyword):
 
     return None
 
-
-from collections import deque
-
-d = deque(maxlen=10)
-for _ in range(100):
-    d.append(_)
-    print(d, d[-1])
+#
+# from collections import deque
+#
+# d = deque(maxlen=10)
+# for _ in range(100):
+#     d.append(_)
+#     print(d, d[-1])
 
 # entrance("@瓦力\u2005英超 射手榜".split("\u2005")[1].split(" "))
 

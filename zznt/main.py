@@ -32,16 +32,16 @@ GLOBAL_MESSAGE_QUEUE = deque(maxlen=100)
 @itchat.msg_register([TEXT, MAP, CARD, NOTE, SHARING], isGroupChat=True)
 def text_reply(msg):
     GLOBAL_MESSAGE_QUEUE.append(msg)
-    text = msg.text
-    print(text, msg.isAt)
+    # text = msg.text
+    # print(text, msg.isAt)
 
     aliasMap = dict([(obj["DisplayName"], obj["NickName"]) for obj in msg["User"]["MemberList"]])
-    print(aliasMap)
+    # print(aliasMap)
 
     if msg.isAt:
-        print("raw", text)
+        # print("raw", text)
         text = "\u2005".join(msg.text.split("\u2005")[1:])
-        print("text", text)
+        # print("text", text)
 
         if text[:2] == "保存" or text[:2] == "学习":
             save_data(GLOBAL_MESSAGE_QUEUE, text[2:])
@@ -77,7 +77,7 @@ def text_reply(msg):
 
 @itchat.msg_register([TEXT, MAP, CARD, NOTE, SHARING], isMpChat=True)
 def text_reply(msg):
-    print(msg)
+    # print(msg)
     AI = itchat.search_mps('小冰')[0]["UserName"]
     if msg.FromUserName == AI:
         user = GLOBAL_USER_QUEUE.pop(0)
