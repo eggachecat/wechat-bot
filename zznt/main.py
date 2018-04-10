@@ -44,6 +44,12 @@ is_at_config = {
         "func": search_wiki,
         "help": "功能: 搜索维基百科\n使用: [{}] [关键字]\n备注: *关键字=[空格分割的汉字]"
     },
+    "bus": {
+        "alias": ["巴士", "bus", "Bus", "B", "b"],
+        "func": request_bus,
+        "help": "功能: 查询公交即时信息\n使用: [{}] [公交车名称] [方向] [站号]\n \
+        备注[1]: *公交车名称=[注意全程], *方向=[0/1], *站号=[数字]; \n备注[2]: 如果不知道方向和数字可不填，会返回表再填"
+    },
     "help": {
         "alias": ["帮助", "help", "h", "H"],
         "func": print_help,
@@ -104,6 +110,8 @@ def is_at_next(msg):
                     return func(" ".join(query), idx)
                 elif eventName == "help":
                     return func(is_at_config)
+                elif eventName == "bus":
+                    return func(text)
 
     AI = itchat.search_mps('小冰')[0]["UserName"]
     itchat.send(text, AI)
@@ -129,6 +137,7 @@ def GROUP_TEXT_HANDLER(msg):
 
 @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO], isGroupChat=True)
 def GROUP_FILES_HANDLER(msg):
+
     room_id = msg["User"]["EncryChatRoomId"]
     if room_id not in GLOBAL_MESSAGE_QUEUE:
         GLOBAL_MESSAGE_QUEUE[room_id] = deque(maxlen=100)
@@ -161,7 +170,6 @@ def AI_FILES_HANDLER(msg):
 
 itchat.auto_login(True)
 itchat.run(True)
-
 
 # text = "\u2005".join(msg.text.split("\u2005")[1:])
 #

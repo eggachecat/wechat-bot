@@ -1,0 +1,602 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="Keywords" content="ä¸æµ·åå¸" />
+<meta name="Description" content="ä¸æµ·åå¸ï¼ä¸æµ·å¬äº¤æ¥è¯¢"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>ä¸æµ·å¬äº¤æ¥è¯¢</title>
+<script type="text/javascript" src="/public/js/zepto.min.js"></script>
+<style type="text/css">
+* {padding:0;margin:0;border:0;}
+body { width:100%; height:100%; background: #ededf0; text-align:center; font-size: 16px; font-family: "å¾®è½¯éé»"; line-height: 1.5;}
+.busDirection{ padding-top: 15px;}
+.upgoing,.downgoing{ background: #fff; text-align: left; border-top: 1px solid #c8c7cc; border-bottom: 1px solid #c8c7cc; position: relative; padding:5px 0 5px 2.5em;}
+.downgoing{ margin-top: -1px;}
+.time em{ font-style: normal; display: inline-block; padding-left: 25px; width: 70px;}
+.time em.s{ background: url(/public/images/traffic_sicon.png) no-repeat left center; background-size:22px 22px;}
+.time em.m{ background: url(/public/images/traffic_micon.png) no-repeat left center; background-size:22px 22px;}
+.stationBox{ margin-left: 5%; margin-right: 2%; border-left: 4px solid #bebec0; padding: 5px 0 15px 0; text-align: left;}
+.stationCon{ margin-left: -10px; padding-left: 30px; position: relative; margin-top: 10px;}
+.stationList{ position: relative;}
+span.arroeL{ position: absolute; z-index: 10; left: -9px; top: 12px; width: 10px; height: 15px; background: url(/public/images/traffic_arr.png) no-repeat; background-size: 100%;}
+.stationBor{ border: 1px solid #bababa; background: #fff; border-radius: 5px; padding:0 10px;}
+.station{ position: relative; padding: 6px 0;}
+.icon{ position: absolute; z-index: 10; background: #ccc; right: 10px; top: 0.8em; width: 20px; height: 14px; background: url(/public/images/traffic_down.png) no-repeat; background-size: 100%;}
+span.point{ position: absolute; z-index: 10; width: 16px; height: 16px; display: inline-block; left: 0; top: 10px; background: url(/public/images/traffic_point.png) no-repeat; background-size: 100%;}
+.near{ padding: 5px 0; height:32px; line-height:32px; border-top: 1px solid #ccc; display: none; font-size: 0.9em; background: url(/public/images/traffic_shu.png) no-repeat 5px center; background-size: 20px; padding-left: 32px;}
+.current{ color: #187cd7;}
+.current .icon{ background: url(/public/images/traffic_up.png) no-repeat; background-size: 100%;}
+.current span.point{ background: url(/public/images/traffic_Cpoint.png) no-repeat; background-size: 100%;}
+.current .near{ display: block;}
+span.have{ position: absolute; z-index:100; left:-7px; top: 70%; width: 28px; height: 28px;}
+span.have.ok{ background: url(/public/images/traffic_busicon.png) no-repeat left center; background-size: 100%;}
+.cur{ background:#1f93d3 url(/public/images/traffic_okicon.png) no-repeat 7px center; background-size: 25px 25px; color:#fff;}
+.wxts{margin:10px 3% 0 3%; border:1px solid #cfa972; background:#fff799; padding:4px 0; text-align:center; color:#82581b; font-size:14px; border-radius:5px;}
+</style>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)  })
+  (window,document,'script','//shanghaicity.openservice.kankanews.com/public/js/analytics.js','ga');  
+  ga('create', 'UA-21873800-9', 'auto');  ga('require', 'displayfeatures');  ga('require', 'linkid', 'linkid.js');  ga('send', 'pageview');
+</script> 
+
+
+
+</head>
+<body>
+<article>
+	<div class="busDirection">
+		
+			
+		<div  class="upgoing cur" >
+			<p><span>éå®¶å´å°éç«</span>â <span>é¿å²è·¯ä¸éè·¯</span></p>
+			<div class="time"><em class="s">05:30</em><em class="m">23:40</em></div>
+		</div>
+			
+		<div  class="downgoing " >
+			<p><span>é¿å²è·¯ä¸éè·¯</span>â <span>éå®¶å´å°éç«</span></p>
+			<div class="time"><em class="s">04:50</em><em class="m">22:50</em></div>
+		</div>
+				
+		
+		
+	</div>
+    <div class="wxts">
+    	âäº²ï¼å°å¸æéï¼å¯ä¸è¦ééæ¨è¦ä¹åçæ¹åå¦ã
+    </div>
+	<div class="stationBox">
+
+		
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_7A7C0000"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_1"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">1.</span>
+						<span class="name">éå®¶å´å°éç«</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_28827"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_2"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">2.</span>
+						<span class="name">æµ¦ä¸åè·¯æµ¦ä¸å¤§é</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_28821"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_3"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">3.</span>
+						<span class="name">é¶åè·¯æ¥ç§è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_28885"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_4"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">4.</span>
+						<span class="name">æéè·¯ä¸æ¹è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_27515"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_5"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">5.</span>
+						<span class="name">æéè·¯æºæ·±è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_27516"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_6"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">6.</span>
+						<span class="name">æéè·¯æ°çè·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_7C840013"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_7"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">7.</span>
+						<span class="name">æéè·¯èåè·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_46962"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_8"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">8.</span>
+						<span class="name">æµ¦ä¸å¤§éç½å±±è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_47846"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_9"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">9.</span>
+						<span class="name">æµ¦ä¸å¤§éå±å®¶æ¡¥è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_81890001"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_10"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">10.</span>
+						<span class="name">æµ¦ä¸å¤§ééæ¡¥è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_828A0001"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_11"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">11.</span>
+						<span class="name">å«å·æ¡¥</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_828B0002"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_12"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">12.</span>
+						<span class="name">æµ¦ä¸å¤§éäºè²è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_46959"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_13"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">13.</span>
+						<span class="name">äºè²è·¯è±é³è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_46960"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_14"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">14.</span>
+						<span class="name">å°åè·¯äºè²è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_818C0001"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_15"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">15.</span>
+						<span class="name">åå´è·¯å°åè·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_808D0000"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_16"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">16.</span>
+						<span class="name">åå´è·¯å¼ æ¨åè·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_818"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_17"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">17.</span>
+						<span class="name">åå´è·¯è·æ³½è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_808"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_18"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">18.</span>
+						<span class="name">è·æ³½è·¯é¿å²è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_46961"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_19"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">19.</span>
+						<span class="name">é¿å²è·¯è·æ³½è·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+					
+			
+				
+				<div class="stationCon">
+			<span class="point" id="list_818F0001"></span>
+			<div style="width:1px; height:1px; display:none" id="listx_20"></div>
+						<div class="stationList">
+				<span class="arroeL"></span>
+				<div class="stationBor">
+					<div class="station">
+						<span class="num">20.</span>
+						<span class="name">é¿å²è·¯ä¸éè·¯</span>
+						<div class="icon"></div>
+					</div>
+					<div class="near"></div>
+				</div>
+			</div>
+			</div>
+			
+				
+
+	
+
+		
+
+	</div>
+</article>
+<script type="text/javascript">
+	$(function(){
+		$(".busDirection>div").on("tap",function(){
+			$(".busDirection>div").removeClass("cur");
+			
+			//æ ¹æ®å°åä¸åè§£æå°ä¸åçå°å
+			var test = window.location.href;
+			var x = test.match("stoptype");
+			var sid = getCookie('sid');
+			//alert(x);
+			$(this).addClass("cur");
+			if(x==null){
+				//alert(aa);
+				location.href ="/public/bus/mes/sid/" + sid+ "/stoptype/1";
+			}else{
+				location.href ="/public/bus/mes/sid/" + sid;
+			}
+			
+			
+		})
+
+		$(".stationCon").each(function(i){
+		$(this).on("tap",function(){
+			/*if(i==0){
+				return false;
+			}*/	
+			$(".stationCon").removeClass("current");
+				
+			var stoptype = $(".cur").index();
+			var stopid = $(this).find('.num').html();
+			var sid = getCookie('sid');
+			//è¿éå¯ä»¥éæ©æ¥è¯¢ã
+			$('.ok').remove();
+			//$("#mask,#loader").show();
+			$.post('http://shanghaicity.openservice.kankanews.com/public/bus/Getstop', { stoptype:stoptype,stopid:stopid,sid:sid }, function(response){
+				//$("#mask,#loader").hide();////
+				
+				var dataall = JSON.parse(response);
+				/*for itemx in dataall
+				{
+					$('#'+itemx.stopid).find()
+				
+				}*/
+				//alert(dataall[0]);
+				
+				var data = dataall[0];
+				
+				if(typeof(data)=="undefined"){
+					var mes = 'ç­å¾åè½¦';
+					
+					$(".stationCon").eq(i).find(".near").html(mes);
+				}
+				if((typeof(data.error) != "undefined") && (data.error!='')){
+					//$('#warning').html(data.msg);
+					if(data.error=='-2' || data=="undefined"){
+						var mes = 'ç­å¾åè½¦';
+						$(".stationCon").eq(i).find(".near").html(mes);
+					}else{
+						alert('error');
+						return false;
+					}
+				}else if(typeof(data.time)=="undefined" || data.time==null ||  data.time=="null"){	
+					var mes = 'ç­å¾åè½¦';
+					$(".stationCon").eq(i).find(".near").html(mes);
+				}else{
+					//alert(data);
+					var tx = data.time;
+					
+					if(tx.indexOf("åé")>0){
+						var mes = data.terminal+' è¿æ'+data.stopdis+'ç«, çº¦'+data.time;
+					}else{
+						var mes = data.terminal+' è¿æ'+data.stopdis+'ç«, çº¦'+Math.ceil(data.time/60)+'åé';
+					}
+					//console.log($(".stationCon").eq(i).find(".near").length);
+					$(".stationCon").eq(i).find(".near").html(mes);
+				}
+				
+				/*
+				for(var xi = 0; xi<dataall.length;xi++){
+					//alert(dataall[xi].stopdis);
+					if($('#list_'+dataall[xi].stopdis).length>0){
+						//alert('aaaaaaaaaaaaaaaaaaaaaaaa');
+						$('#list_'+dataall[xi].stopdis).after('<span class="have ok"></span>');
+						//
+						
+					}
+					//alert($('#listx_'+dataall[xi].stopdis).length);
+					
+					if($('#listx_'+(stopid-dataall[xi].stopdis)).length>0){
+						
+						//alert('aaaaaaaaaaaaaaaaaaaaaaaa');
+						$('#listx_'+(stopid-dataall[xi].stopdis)).after('<span class="have ok"></span>');
+						//
+						
+					}
+				}
+				
+				*/
+				
+			});
+			
+			$(this).addClass("current");
+		})
+	})
+	})
+	
+	
+
+
+function gets(stoptype,stopid,sid){
+	var mes = '';
+	 $.post('/public/bus/Getstop', { stoptype:stoptype,stopid:stopid,sid:sid }, function(response){
+					var data = JSON.parse(response);
+					
+					if(data.error!=''){
+						//alert('error');
+						//return false;
+						return '';
+					}
+				
+					mes = data.terminal+' è¿æ'+data.stopdis+'ç«, çº¦'+Math.ceil(data.time/60)+'åé';
+				alert(mes);	
+			
+				});
+				
+	return String(mes);
+}
+
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+ 
+    if(arr=document.cookie.match(reg))
+ 
+        return unescape(arr[2]);
+    else
+        return null;
+} 
+</script>
+<!--ç»è®¡ä»£ç -->
+<div style="display:none"><script src="https://a.irs01.com/hat?_t=i&type=imp&hat_id=MyY2JjUzNjQmMTEyNDYmNDk0ODEmUh8&_z=m&os=__OS__&imei=__IMEI__&mac=__MAC__&mac1=__MAC1__&idfa=__IDFA__&openudid=__OPENUDID__&androidid=__ANDROIDID__&androidid1=__ANDROIDID1__&aaid=__AAID__&duid=__DUID__&udid=__UDID__&ip=__IP__&useragent=__UA__&ts=__TS__"></script></div>
+<!--ç»è®¡ä»£ç -->
+</body>
+</html>
