@@ -50,7 +50,7 @@ def is_at_next(msg):
                         response = func(aliasMap[name])
                     else:
                         response = func(name)
-                    response = "@{}".format(name) + atFlag + "同志语录:\n" + response
+                    response = "@{}".format(name) + atFlag + "同志语录:" + response
                 else:
                     func(GLOBAL_MESSAGE_QUEUE, text, msg)
                 return response
