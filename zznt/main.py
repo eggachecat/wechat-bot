@@ -18,6 +18,8 @@ def print_help(config):
         response += "\n"
         response += v["help"].format("/".join(v["alias"]))
 
+    return response
+
 
 is_at_config = {
     "save-data": {
