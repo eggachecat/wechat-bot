@@ -29,17 +29,23 @@ header = {'User-Agent': "Mozilla/5.0 (Windows NT 6.1; WOW64) "
 if not os.path.exists(folder):
     os.mkdir(folder)
 
+MAX_N_IMAGES = 20
+
 
 def search_image(query, callback):
-    n_images = 1
-    max_images = 10
-    query = query.rstrip()
+    max_images = 1
+    query = query.rstrip().lstrip()
+    query = query.split(" ")
     if query[-1].isdigit():
-        max_images = max_images if int(query[-1]) > max_images else int(query[-1])
+        max_images = MAX_N_IMAGES if int(query[-1]) > MAX_N_IMAGES else int(query[-1])
         query = query[:-1]
+    if max_images == 0:
+        max_images = MAX_N_IMAGES
+    query = filter(lambda x: not x == " ", query)
 
-    query = filter(lambda x: not x == " ", query.split(" "))
     query = '+'.join(query)
+    print(query, max_images)
+
     url = "https://www.google.co.in/search?q=" + query + "&source=lnms&tbm=isch"
 
     req = requests.get(url, headers=header)
@@ -51,11 +57,14 @@ def search_image(query, callback):
 
     ctr = 0
     for i, (link, Type) in enumerate(images):
-        if ctr >= n_images:
+        if ctr >= max_images:
             break
-        if Type == 'jpg' or Type == 'png' or Type == 'jpeg':
-            callback(save_image(link))
-            ctr += 1
+        if Type == 'jpg' or Type == 'png':
+            fileName = save_image(link)
+            if fileName is not None:
+                print(fileName)
+                callback(fileName)
+                ctr += 1
 
 
 def save_image(url):
@@ -69,7 +78,7 @@ def save_image(url):
         f.close()
         print(filename)
         return filename
-    except ConnectionError as e:
+    except Exception as e:
         print('could not download %s' % url)
         return None
 
@@ -113,3 +122,34 @@ def save_data(message_queue, params, msg):
 
         DATABASE_OBJECT[name][time_] = msgObj.text
         DB_REFERENCE.update(DATABASE_OBJECT)
+
+
+import wikipedia
+from hanziconv import HanziConv
+
+
+def search_wiki(keyword, idx=None):
+    if idx is None:
+        try:
+            wikipedia.set_lang("zh")
+            content = HanziConv.toSimplified(wikipedia.summary(keyword))
+        except:
+            try:
+                wikipedia.set_lang("en")
+                content = HanziConv.toSimplified(wikipedia.summary(keyword))
+            except:
+                return wikipedia.search(keyword)
+        return content
+
+    else:
+        keyword_ = wikipedia.search(keyword)[idx]
+        try:
+            wikipedia.set_lang("zh")
+            content = HanziConv.toSimplified(wikipedia.summary(keyword_))
+        except:
+            try:
+                wikipedia.set_lang("en")
+                content = HanziConv.toSimplified(wikipedia.summary(keyword_))
+            except:
+                return None
+        return content

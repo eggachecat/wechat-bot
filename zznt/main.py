@@ -23,6 +23,10 @@ is_at_config = {
     "search-images": {
         "alias": ["求图", "求图片", "p", "P"],
         "func": search_image
+    },
+    "wiki": {
+        "alias": ["维基", "wiki", "w", "W"],
+        "func": search_wiki
     }
 }
 
@@ -63,6 +67,15 @@ def is_at_next(msg):
                 elif eventName == "search-images":
                     func(text, lambda x: itchat.send('@%s@%s' % ("img", x), toUserName=msg.FromUserName))
 
+                    return None
+
+                elif eventName == "wiki":
+                    query = text.split(" ")
+                    idx = None
+                    if query[-1].isdigit():
+                        idx = int(query[-1].isdigit() - 1)
+                        query = query[:-1]
+                    func(" ".join(query), idx)
                     return None
 
     AI = itchat.search_mps('小冰')[0]["UserName"]
