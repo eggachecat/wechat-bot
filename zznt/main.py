@@ -37,8 +37,13 @@ is_at_config = {
     },
     "wiki": {
         "alias": ["维基", "wiki", "w", "W"],
-        "func": print_help,
+        "func": search_wiki,
         "help": "功能: 搜索维基百科\n使用方法\nat瓦力 {} *关键字\n: 备注: *关键字=[空格分割的汉字]"
+    },
+    "help": {
+        "alias": ["帮助", "help", "h", "H"],
+        "func": print_help,
+        "help": "功能: 获得参考\n使用方法\nat瓦力 {}"
     }
 }
 
