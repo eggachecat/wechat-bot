@@ -63,7 +63,6 @@ def is_at_next(msg):
                 elif eventName == "search-images":
                     image_names = func(text)
                     for image_name in image_names:
-                        print(msg.User)
                         itchat.send('@%s@%s' % ("img", image_name), toUserName=msg.FromUserName)
                     return None
 

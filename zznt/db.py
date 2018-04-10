@@ -30,7 +30,7 @@ if not os.path.exists(folder):
     os.mkdir(folder)
 
 
-def search_image(query, max_len=0):
+def search_image(query, max_len=1):
     query = query.rstrip()
     if query[-1].isdigit():
         max_len = int(query[-1])
@@ -51,6 +51,7 @@ def search_image(query, max_len=0):
         if i >= max_len:
             break
         if Type == 'jpg' or Type == 'png' or Type == 'jpeg':
+            print(link)
             image_names.append(save_image(link))
     return image_names
 
@@ -64,6 +65,7 @@ def save_image(url):
         f = open(filename, 'wb')
         f.write(image_r.content)
         f.close()
+        print(filename)
         return filename
     except ConnectionError as e:
         print('could not download %s' % url)
