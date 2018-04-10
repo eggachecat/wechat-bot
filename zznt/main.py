@@ -21,7 +21,7 @@ is_at_config = {
         "func": read_data
     },
     "search-images": {
-        "alias": ["求图", "p", "P"],
+        "alias": ["求图", "求图片", "p", "P"],
         "func": search_image
     }
 }
