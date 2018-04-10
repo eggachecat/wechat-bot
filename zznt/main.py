@@ -13,10 +13,12 @@ GLOBAL_MESSAGE_QUEUE = {}
 
 
 def print_help(config):
-    response = "参考:"
+    response = "参考: [at瓦力]"
     for k, v in config.items():
-        response += "\n"
+        response += "\n\n"
         response += v["help"].format("/".join(v["alias"]))
+
+    print(response)
 
     return response
 
@@ -25,27 +27,27 @@ is_at_config = {
     "save-data": {
         "alias": ["保存", "学习", "s", "S"],
         "func": save_data,
-        "help": "功能: 保存重要讲话\n使用方法\nat瓦力 {} *数字\n 备注: *数字=[代表前几句]"
+        "help": "功能: 保存重要讲话\n使用: [{}] [数字]\n备注: *数字=[代表前几句]"
     },
     "read-data": {
         "alias": ["读取", "复习", "r", "R"],
         "func": read_data,
-        "help": "功能: 复习重要讲话\n使用方法\nat瓦力 {} at用户"
+        "help": "功能: 复习重要讲话\n使用: [{}] at用户"
     },
     "search-images": {
         "alias": ["求图", "求图片", "p", "P"],
         "func": search_image,
-        "help": "功能: 搜索图片\n使用方法\nat瓦力 {} *关键字 *数字\n: 备注: *关键字=[空格分割的汉字], *数字=[多少张图片,最多20]"
+        "help": "功能: 搜索图片\n使用: [{}] [关键字] [数字]\n备注: *关键字=[空格分割的汉字], *数字=[多少张图片,最多20]"
     },
     "wiki": {
         "alias": ["维基", "wiki", "w", "W"],
         "func": search_wiki,
-        "help": "功能: 搜索维基百科\n使用方法\nat瓦力 {} *关键字\n: 备注: *关键字=[空格分割的汉字]"
+        "help": "功能: 搜索维基百科\n使用: [{}] [关键字]\n备注: *关键字=[空格分割的汉字]"
     },
     "help": {
         "alias": ["帮助", "help", "h", "H"],
         "func": print_help,
-        "help": "功能: 获得参考\n使用方法\nat瓦力 {}"
+        "help": "功能: 获得参考\n使用: [{}]"
     }
 }
 
@@ -57,6 +59,7 @@ def is_at_next(msg):
     atFlag = "\u2005"
 
     text = text.split(atFlag if atFlag in text else " ", 1)[1]
+    text = text.lstrip().rstrip()
 
     response = None
 
@@ -72,7 +75,12 @@ def is_at_next(msg):
                 func = eventObj["func"]
                 text = text[len(alias):]
                 if eventName == "read-data":
-                    name = text.split(atFlag if atFlag in text else " ")[0].replace("@", "").replace(" ", "")
+                    if "@" in text:
+                        name = text.split(atFlag if atFlag in text else " ")[0].replace("@", "").replace(" ", "")
+                    else:
+                        name = text.replace(" ", "")
+
+                    print("read data key: {}".format(name))
                     if name in aliasMap:
                         response = func(aliasMap[name])
                     else:

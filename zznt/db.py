@@ -95,7 +95,7 @@ def read_data(name):
         for k, v in res.items():
             response += "\n\n"
             date = datetime.datetime.strptime(k, "%Y-%m-%d %H:%M:%S")
-            response += "{} 发表重要讲话: \"{}\"".format(
+            response += "{} 发表重要讲话: \"{}\";".format(
                 date.strftime("%Y{Y}%m{m}%d{d}%H{H}%M{M}%S{S}").format(Y='年', m='月', d='日', H='时', M='分', S='秒'), v)
         return response
 
