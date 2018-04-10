@@ -102,7 +102,7 @@ def read_data(name):
 
 def save_data(message_queue, params, msg):
     messages = []
-    room_id = msg["User"]["EncryChatRoomId"]
+    room_id = msg.FromUserName
     for i in params.split(" "):
         if i.isdigit():
             msgObj_ = message_queue[room_id][-1 * (int(i) + 1)]

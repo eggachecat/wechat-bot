@@ -124,7 +124,7 @@ def is_at_next(msg):
 def GROUP_TEXT_HANDLER(msg):
     print("Receive text message:", msg.text)
 
-    room_id = msg["User"]["EncryChatRoomId"]
+    room_id = msg.FromUserName
     if room_id not in GLOBAL_MESSAGE_QUEUE:
         GLOBAL_MESSAGE_QUEUE[room_id] = deque(maxlen=100)
     GLOBAL_MESSAGE_QUEUE[room_id].append(msg)
@@ -138,7 +138,7 @@ def GROUP_TEXT_HANDLER(msg):
 @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO], isGroupChat=True)
 def GROUP_FILES_HANDLER(msg):
 
-    room_id = msg["User"]["EncryChatRoomId"]
+    room_id = msg.FromUserName
     if room_id not in GLOBAL_MESSAGE_QUEUE:
         GLOBAL_MESSAGE_QUEUE[room_id] = deque(maxlen=100)
     GLOBAL_MESSAGE_QUEUE[room_id].append(msg)
