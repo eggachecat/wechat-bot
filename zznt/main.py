@@ -11,22 +11,34 @@ if not os.path.exists("./files/"):
 GLOBAL_USER_QUEUE = []
 GLOBAL_MESSAGE_QUEUE = {}
 
+
+def print_help(config):
+    response = "参考:"
+    for k, v in config.items():
+        response += "\n"
+        response += v["help"].format("/".join(v["alias"]))
+
+
 is_at_config = {
     "save-data": {
         "alias": ["保存", "学习", "s", "S"],
-        "func": save_data
+        "func": save_data,
+        "help": "功能: 保存重要讲话\n使用方法\nat瓦力 {} *数字\n 备注: *数字=[代表前几句]"
     },
     "read-data": {
         "alias": ["读取", "复习", "r", "R"],
-        "func": read_data
+        "func": read_data,
+        "help": "功能: 复习重要讲话\n使用方法\nat瓦力 {} at用户"
     },
     "search-images": {
         "alias": ["求图", "求图片", "p", "P"],
-        "func": search_image
+        "func": search_image,
+        "help": "功能: 搜索图片\n使用方法\nat瓦力 {} *关键字 *数字\n: 备注: *关键字=[空格分割的汉字], *数字=[多少张图片,最多20]"
     },
     "wiki": {
         "alias": ["维基", "wiki", "w", "W"],
-        "func": search_wiki
+        "func": print_help,
+        "help": "功能: 搜索维基百科\n使用方法\nat瓦力 {} *关键字\n: 备注: *关键字=[空格分割的汉字]"
     }
 }
 
@@ -68,15 +80,15 @@ def is_at_next(msg):
                     func(text, lambda x: itchat.send('@%s@%s' % ("img", x), toUserName=msg.FromUserName))
 
                     return None
-
                 elif eventName == "wiki":
                     query = text.split(" ")
                     idx = None
                     if query[-1].isdigit():
                         idx = int(query[-1].isdigit() - 1)
                         query = query[:-1]
-                    func(" ".join(query), idx)
-                    return None
+                    return func(" ".join(query), idx)
+                elif eventName == "help":
+                    return func(is_at_config)
 
     AI = itchat.search_mps('小冰')[0]["UserName"]
     itchat.send(text, AI)
