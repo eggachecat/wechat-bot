@@ -30,11 +30,14 @@ if not os.path.exists(folder):
     os.mkdir(folder)
 
 
-def search_image(query, max_len=1):
+def search_image(query, callback):
+    n_images = 1
+    max_images = 10
     query = query.rstrip()
     if query[-1].isdigit():
-        max_len = int(query[-1])
+        n_images = max_images if int(query[-1]) > max_images else int(query[-1])
         query = query[:-1]
+
     query = filter(lambda x: not x == " ", query.split(" "))
     query = '+'.join(query)
     url = "https://www.google.co.in/search?q=" + query + "&source=lnms&tbm=isch"
@@ -46,14 +49,13 @@ def search_image(query, max_len=1):
         link, Type = json.loads(a.text)["ou"], json.loads(a.text)["ity"]
         images.append((link, Type))
 
-    image_names = []
+    ctr = 0
     for i, (link, Type) in enumerate(images):
-        if i >= max_len:
+        if ctr >= n_images:
             break
         if Type == 'jpg' or Type == 'png' or Type == 'jpeg':
-            print(link)
-            image_names.append(save_image(link))
-    return image_names
+            callback(save_image(link))
+            ctr += 1
 
 
 def save_image(url):

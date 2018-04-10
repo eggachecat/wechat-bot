@@ -61,9 +61,8 @@ def is_at_next(msg):
                     func(GLOBAL_MESSAGE_QUEUE, text, msg)
                     return None
                 elif eventName == "search-images":
-                    image_names = func(text)
-                    for image_name in image_names:
-                        itchat.send('@%s@%s' % ("img", image_name), toUserName=msg.FromUserName)
+                    func(text, lambda x: itchat.send('@%s@%s' % ("img", x), toUserName=msg.FromUserName))
+
                     return None
 
     AI = itchat.search_mps('小冰')[0]["UserName"]
