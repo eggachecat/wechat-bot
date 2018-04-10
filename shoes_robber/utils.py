@@ -1,12 +1,28 @@
 import re
 
 
-def middleware_filehelper(msg):
-    if msg.FromUserName == "filehelper":
-        print(msg)
+def replace_size(string, size):
+    largest_index = len(string) - 1
+    for i, c in enumerate(string):
+        is_size = True
+
+        if not c.isalpha():
+            is_size = False
+
+        if c.isalpha():
+            if 0 <= i - 1 <= largest_index:
+                if string[i - 1].isalpha():
+                    is_size = False
+            if 0 <= i + 1 <= largest_index:
+                if string[i - 1].isalpha():
+                    is_size = False
+
+        if is_size:
+            return "".join([size if _i == i else _c for _i, _c in enumerate(string)])
+    return string
 
 
-def replace_example(msg, id_, phone):
+def replace_example(msg, id_, phone, size):
     print(msg, id_, phone)
     id_pattern = re.compile(r"[0-9]{18}")
     phone_pattern = re.compile(r"[0-9]{11}")
@@ -19,13 +35,13 @@ def replace_example(msg, id_, phone):
                 p1 = phone_pattern.sub(phone, s[:id_pos[0]])
                 p2 = id_pattern.sub(id_, s[id_pos[0]:id_pos[1]])
                 p3 = phone_pattern.sub(phone, s[id_pos[1]:])
-                return p1 + p2 + p3
-    except:
+                return replace_size(p1 + p2 + p3, size)
+    except Exception as e:
         return msg
 
 
 def test_replace():
-    print(replace_example("例如：15900000000,310221111111110000,asd", "310227199406260019", "15900749626"))
+    print(replace_example("例如：15900000000,310221111111110000", "310227199406260019", "15900749626", "D"))
 
 
 if __name__ == '__main__':

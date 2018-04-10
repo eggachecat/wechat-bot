@@ -2,3 +2,4 @@ env/
 *.pkl
 .idea/
 __pycache__/
+files/

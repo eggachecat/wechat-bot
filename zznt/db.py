@@ -17,43 +17,41 @@ import prettytable as pt
 
 
 def read_data(name):
-    print("name: ", name)
     name = name.replace(" ", "")
     res = DB_REFERENCE.child(name).get()
+
     if res is None:
         return "Nothing"
     else:
-        tb = pt.PrettyTable()
-        tb.field_names = ["讲话内容", "发表于"]
+        print("name: ", name)
+        response = ""
         for k, v in res.items():
-            tb.add_row([v, k[:10]])
-        tb.border = 0
-        tb.align = 'l'
+            date = datetime.datetime.strptime(k, "%Y-%m-%d %H:%M:%S")
+            response += "{} 发表重要讲话: \"{}\"".format(
+                date.strftime("%Y{Y}%m{m}%d{d}%H{H}%M{M}%S{S}").format(Y='年', m='月', d='日', H='时', M='分', S='秒'), v)
+            response += "\n\n"
+        return response
 
-        return tb.__str__()
 
-
-def save_data(message_queue, params):
+def save_data(message_queue, params, msg):
     messages = []
+    room_id = msg["User"]["EncryChatRoomId"]
     for i in params.split(" "):
         if i.isdigit():
-            messages.append(message_queue[-1 * (int(i) + 1)])
+            msgObj_ = message_queue[room_id][-1 * (int(i) + 1)]
+            if msgObj_.Type == "Text":
+                messages.append(msgObj_)
 
     for msgObj in messages:
-
-        # print([(obj["DisplayName"], obj["NickName"]) for _, obj in msgObj["User"].items()])
-
+        print("saving..", msgObj.text)
         aliasMap = dict([(obj["DisplayName"], obj["NickName"]) for obj in msgObj["User"]["MemberList"]])
         name = msgObj["ActualNickName"]
         if name in aliasMap:
             name = aliasMap[name]
 
-        time_ = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f")
+        time_ = datetime.datetime.fromtimestamp(msgObj.CreateTime).strftime("%Y-%m-%d %H:%M:%S")
         if name not in DATABASE_OBJECT:
             DATABASE_OBJECT[name] = {}
 
         DATABASE_OBJECT[name][time_] = msgObj.text
         DB_REFERENCE.update(DATABASE_OBJECT)
-
-
-print(read_data("苏脑"))
