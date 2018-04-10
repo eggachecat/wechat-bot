@@ -19,6 +19,10 @@ is_at_config = {
     "read-data": {
         "alias": ["读取", "复习", "r", "R"],
         "func": read_data
+    },
+    "search-images": {
+        "alias": ["求图", "p", "P"],
+        "func": search_image
     }
 }
 
@@ -51,9 +55,17 @@ def is_at_next(msg):
                     else:
                         response = func(name)
                     response = "@{}".format(name) + atFlag + "同志语录:" + response
-                else:
+                    return response
+
+                elif eventName == "save-data":
                     func(GLOBAL_MESSAGE_QUEUE, text, msg)
-                return response
+                    return None
+                elif eventName == "search-images":
+                    image_names = func(text)
+                    for image_name in image_names:
+                        print(msg.User)
+                        itchat.send('@%s@%s' % ("img", image_name), toUserName=msg.FromUserName)
+                    return None
 
     AI = itchat.search_mps('小冰')[0]["UserName"]
     itchat.send(text, AI)

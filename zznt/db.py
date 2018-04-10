@@ -3,6 +3,13 @@ from firebase_admin import credentials
 from firebase_admin import db
 import datetime
 
+from bs4 import BeautifulSoup
+import requests
+import os
+import urllib.parse
+from os.path import basename
+import json
+
 CRED = credentials.Certificate('./zznt-storage-firebase-adminsdk-8rdbv-60ed195429.json')
 DEFAULT_APP = firebase_admin.initialize_app(CRED, {
     "databaseURL": "https://zznt-storage.firebaseio.com/",
@@ -13,6 +20,54 @@ DATABASE_OBJECT = DB_REFERENCE.get()
 
 if DATABASE_OBJECT is None:
     DATABASE_OBJECT = {}
+
+folder = "search"
+header = {'User-Agent': "Mozilla/5.0 (Windows NT 6.1; WOW64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/43.0.2357.134 Safari/537.36"}
+
+if not os.path.exists(folder):
+    os.mkdir(folder)
+
+
+def search_image(query, max_len=0):
+    query = query.rstrip()
+    if query[-1].isdigit():
+        max_len = int(query[-1])
+        query = query[:-1]
+    query = filter(lambda x: not x == " ", query.split(" "))
+    query = '+'.join(query)
+    url = "https://www.google.co.in/search?q=" + query + "&source=lnms&tbm=isch"
+
+    req = requests.get(url, headers=header)
+    soup = BeautifulSoup(req.text, 'html.parser')
+    images = []
+    for a in soup.find_all("div", {"class": "rg_meta"}):
+        link, Type = json.loads(a.text)["ou"], json.loads(a.text)["ity"]
+        images.append((link, Type))
+
+    image_names = []
+    for i, (link, Type) in enumerate(images):
+        if i >= max_len:
+            break
+        if Type == 'jpg' or Type == 'png' or Type == 'jpeg':
+            image_names.append(save_image(link))
+    return image_names
+
+
+def save_image(url):
+    try:
+        image_r = requests.get(url, headers=header)
+        disassembled = urllib.parse.urlparse(url)
+        filename = basename(disassembled.path)
+        filename = os.path.join(os.getcwd(), folder, filename)
+        f = open(filename, 'wb')
+        f.write(image_r.content)
+        f.close()
+        return filename
+    except ConnectionError as e:
+        print('could not download %s' % url)
+        return None
 
 
 def read_data(name):
