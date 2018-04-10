@@ -35,7 +35,7 @@ def search_image(query, callback):
     max_images = 10
     query = query.rstrip()
     if query[-1].isdigit():
-        n_images = max_images if int(query[-1]) > max_images else int(query[-1])
+        max_images = max_images if int(query[-1]) > max_images else int(query[-1])
         query = query[:-1]
 
     query = filter(lambda x: not x == " ", query.split(" "))
