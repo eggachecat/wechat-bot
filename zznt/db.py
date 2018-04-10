@@ -13,7 +13,6 @@ DATABASE_OBJECT = DB_REFERENCE.get()
 
 if DATABASE_OBJECT is None:
     DATABASE_OBJECT = {}
-import prettytable as pt
 
 
 def read_data(name):
