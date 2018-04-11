@@ -222,6 +222,29 @@ def request_bus(params):
     return "巴士参数错误"
 
 
+from io import StringIO
+
+url = 'https://upload.wikimedia.org/wikipedia/commons/3/3d/LARGE_elevation.jpg'
+url = 'https://pbs.twimg.com/profile_images/875749462957670400/T0lwiBK8_400x400.jpg'
+image_r = requests.get(url, stream=True)
+maxsize = 20000  # 2mb
+content = b''
+for chunk in image_r.iter_content(2048):
+    content += chunk
+    print(chunk)
+    print(len(chunk))
+    if len(content) > maxsize:
+        image_r.close()
+        raise ValueError('Response too large')
+print(len(content))
+disassembled = urllib.parse.urlparse(url)
+filename = basename(disassembled.path)
+filename = os.path.join(os.getcwd(), folder, filename)
+f = open(filename, 'wb')
+f.write(content)
+f.close()
+print(filename)
+exit()
 if __name__ == '__main__':
     request_bus("85 居家桥")
 
