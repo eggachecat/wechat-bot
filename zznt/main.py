@@ -6,7 +6,7 @@ from itchat.content import *
 
 from utils.db import *
 from utils.bus import *
-from utils.wiki import *
+from utils.search import *
 
 if not os.path.exists("./files/"):
     os.makedirs("./files/")
@@ -44,6 +44,11 @@ is_at_config = {
         "alias": ["维基", "wiki", "w", "W"],
         "func": search_wiki,
         "help": "功能: 搜索维基百科\n使用: [{}] [关键字]\n备注: *关键字=[空格分割的汉字]"
+    },
+    "google": {
+        "alias": ["google", "g", "G"],
+        "func": search_google,
+        "help": "功能: 谷歌搜索\n使用: [{}] [关键字]\n备注: *关键字=[空格分割的汉字]"
     },
     "bus": {
         "alias": ["巴士", "bus", "Bus", "B", "b"],
@@ -102,15 +107,13 @@ def is_at_next(msg):
                     return None
                 elif eventName == "search-images":
                     func(text, lambda x: itchat.send('@%s@%s' % ("img", x), toUserName=msg.FromUserName))
-
                     return None
                 elif eventName == "wiki":
-                    query = text.split(" ")
-                    idx = None
-                    if query[-1].isdigit():
-                        idx = int(query[-1].isdigit() - 1)
-                        query = query[:-1]
-                    return func(" ".join(query), idx)
+                    func(text, lambda x: itchat.send('@%s@%s' % ("img", x), toUserName=msg.FromUserName))
+                    return None
+                elif eventName == "google":
+                    func(text, lambda x: itchat.send('@%s@%s' % ("img", x), toUserName=msg.FromUserName))
+                    return None
                 elif eventName == "help":
                     return func(is_at_config)
                 elif eventName == "bus":
