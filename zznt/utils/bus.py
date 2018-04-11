@@ -129,7 +129,7 @@ def request_bus(params):
 
         def _request_full_table(bus_name_, response_, direction_):
             direction_, stops_arr_, sid_ = request_stops(bus_name_, direction=direction_)
-            response_ += "[{}]\n".format(direction_)
+            response_ += "方向[{}]\n".format(direction_)
             for stop_ in stops_arr_:
                 response_ += "{} {}\n".format(stop_[0], stop_[1])
             return response_
@@ -156,7 +156,7 @@ def request_bus(params):
 
             start_stop = stops_arr_[0][1]
             terminal_stop = stops_arr_[-1][1]
-            response_ += "**[{o}->{t}]方向:".format(o=start_stop, t=terminal_stop, )
+            response_ += "**[{o}->{t}]:".format(o=start_stop, t=terminal_stop, )
             response_ += request_time(direction_, stop_id__, sid_)
             return response_ + "\n", stop_name__
 
