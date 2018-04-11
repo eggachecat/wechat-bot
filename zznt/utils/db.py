@@ -73,7 +73,7 @@ def search_image(query, callback):
 def save_image(url):
     try:
         image_r = requests.get(url, headers=header, stream=True)
-        maxsize = 100000  # 10mb
+        maxsize = 2000000  # 1mb
         content = b''
         for chunk in image_r.iter_content(2048):
             content += chunk
