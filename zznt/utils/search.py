@@ -21,6 +21,7 @@ def download_page_from_url(url, max_seconds=5):
         else:
             rc = proc.returncode
             if int(rc) == 10:
+                print("rc code:", rc)
                 return 10
             else:
                 return None
@@ -58,6 +59,7 @@ def search_google(query, callback, only_wiki=False):
         try:
             url = result[1]
             res = download_page_from_url(url)
+            print("res is", res)
             if res is not None:
                 callback("./search-output.jpg")
                 ctr += 1
