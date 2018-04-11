@@ -56,10 +56,7 @@ def search_image(query, callback):
         images.append((link, Type))
 
     ctr = 0
-    max_i = 100
     for i, (link, Type) in enumerate(images):
-        if i >= max_i:
-            break
         if ctr >= max_images:
             break
         if Type == 'jpg' or Type == 'png':
@@ -72,25 +69,16 @@ def search_image(query, callback):
 
 def save_image(url):
     try:
-        image_r = requests.get(url, headers=header, stream=True)
-        maxsize = 2000000  # 1mb
-        content = b''
-        for chunk in image_r.iter_content(2048):
-            content += chunk
-            if len(content) > maxsize:
-                image_r.close()
-                raise ValueError('Response too large')
-
+        image_r = requests.get(url, headers=header)
         disassembled = urllib.parse.urlparse(url)
         filename = basename(disassembled.path)
         filename = os.path.join(os.getcwd(), folder, filename)
-
         f = open(filename, 'wb')
-        f.write(content)
+        f.write(image_r.content)
         f.close()
+        print(filename)
         return filename
     except Exception as e:
-        print(e)
         print('could not download %s' % url)
         return None
 
@@ -134,6 +122,8 @@ def save_data(message_queue, params, msg):
 
         DATABASE_OBJECT[name][time_] = msgObj.text
         DB_REFERENCE.update(DATABASE_OBJECT)
+
+
 
 #
 # from bs4 import BeautifulSoup
