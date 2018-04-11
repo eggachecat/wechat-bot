@@ -63,11 +63,17 @@ def convert_result_to_string(result, keep_bus_name=False):
         if result["distance"] == "-":
             return "等待发车"
 
-    template_str = "还有[{sd}]站进站. 距离车站[{d}]米, 预计[{tm}]进站. 牌照[{t}]."
+    template_str = "下一班次距离{sd}站抵达.约{d}米,预计{tm}进站."
+    t = time.gmtime(int(result["time"]))
+    t_string = ""
+    if t.tm_hour > 0:
+        t_string += "{}时".format(t.tm_hour)
+    if t.tm_min > 0:
+        t_string += "{}分".format(t.tm_min)
+    if t.tm_sec > 0:
+        t_string += "{}秒".format(t.tm_sec)
 
-    result = template_str.format(t=result["terminal"], sd=result["stopdis"], d=result["distance"],
-                                 tm=time.strftime("%H{H}%M{M}%S{S}",
-                                                  time.gmtime(int(result["time"]))).format(H="时", M="分", S="秒"))
+    result = template_str.format(sd=result["stopdis"], d=result["distance"], tm=t_string)
     if keep_bus_name:
         result = "最近一辆[{}]: ".format(["@attributes"]["cod"]) + result
 
@@ -150,14 +156,13 @@ def request_bus(params):
 
             start_stop = stops_arr_[0][1]
             terminal_stop = stops_arr_[-1][1]
-            response_ += "方向: [{o}] -> [{t}]\n信息: ".format(o=start_stop, t=terminal_stop, )
+            response_ += "**[{o}->{t}]方向:".format(o=start_stop, t=terminal_stop, )
             response_ += request_time(direction_, stop_id__, sid_)
             return response_ + "\n", stop_name__
 
         response, _ = summary(bus_name, stop_name, response, 0)
-        response += "\n"
         response, stop_name = summary(bus_name, stop_name, response, 1)
-        response = "[{b}]-[{s}]站:\n\n".format(b=bus_name, s=stop_name) + response
+        response = "[{b}]-[{s}]站:\n".format(b=bus_name, s=stop_name) + response
         return response
 
     if len(params) == 3:
