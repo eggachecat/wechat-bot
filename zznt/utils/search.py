@@ -27,7 +27,7 @@ def search_wiki(query, callback):
         try:
             url = result[1]
             # url = url.replace(".wikipedia", ".m.wikipedia")
-            imgkit.from_url(url, "./search-output.png", options={"format": "png", "width": 750, "quality": 1})
+            imgkit.from_url(url, "./search-output.png", options={"format": "png", "width": 800, "quality": 1})
             callback("./search-output.png")
         except Exception as e:
             print(e)
