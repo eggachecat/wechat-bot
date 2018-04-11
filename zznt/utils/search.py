@@ -27,7 +27,10 @@ def search_wiki(query, callback):
         try:
             url = result[1]
             url = url.replace(".wikipedia", ".m.wikipedia")
-            imgkit.from_url(url, "./search-output.jpg", options={"width": 400, "quality": 50})
+            imgkit.from_url(url, "./search-output.jpg", options={"width": 400, 'custom-header': [
+                ('user-agent',
+                 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1')
+            ]})
             callback("./search-output.jpg")
         except Exception as e:
             print(e)
@@ -50,7 +53,7 @@ def search_google(query, callback):
     for result in results:
         try:
             print(result[1])
-            imgkit.from_url(result[1], "./search-output.jpg", options={'format': 'png'})
+            imgkit.from_url(result[1], "./search-output.jpg", options={})
             callback("./search-output.jpg")
         except Exception as e:
             print(e)
