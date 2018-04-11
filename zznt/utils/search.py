@@ -4,6 +4,9 @@ from gsearch.googlesearch import search as google_search
 MAX_RESULT = 5
 import time
 import os
+from imgkit.config import Config as iConfig
+
+CONFIG = iConfig()
 
 
 def search_wiki(query, callback):
@@ -22,7 +25,9 @@ def search_wiki(query, callback):
     results = list(filter(lambda x: "wikipedia" in x[1], results))[:MAX_RESULT]
     for result in results:
         try:
-            imgkit.from_url(result[1], "./search-output.jpg")
+            url = result[1]
+            url = url.replace(".wikipedia", ".m.wikipedia")
+            imgkit.from_url(url, "./search-output.jpg", options={"width": 400, "quality": 50})
             callback("./search-output.jpg")
         except Exception as e:
             print(e)
@@ -40,11 +45,12 @@ def search_google(query, callback):
     query = filter(lambda x: not x == " ", query)
 
     query = ' '.join(query)
-    print(query)
+    print("query is", query)
     results = google_search(query, num_results=max_research)
     for result in results:
         try:
-            imgkit.from_url(result[1], "./search-output.jpg")
+            print(result[1])
+            imgkit.from_url(result[1], "./search-output.jpg", options={'format': 'png'})
             callback("./search-output.jpg")
         except Exception as e:
             print(e)
@@ -52,5 +58,5 @@ def search_google(query, callback):
 
 
 if __name__ == '__main__':
-    print(search_google("日本动画2018", lambda x: time.sleep(5)))
+    print(search_wiki("尤文图斯", lambda x: 0))
     # print(search_google("日本动画2018 5", lambda x: time.sleep(5)))

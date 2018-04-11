@@ -45,11 +45,11 @@ is_at_config = {
         "func": search_wiki,
         "help": "功能: 搜索维基百科\n使用: [{}] [关键字]\n备注: *关键字=[空格分割的汉字]"
     },
-    "google": {
-        "alias": ["google", "g", "G"],
-        "func": search_google,
-        "help": "功能: 谷歌搜索\n使用: [{}] [关键字]\n备注: *关键字=[空格分割的汉字]"
-    },
+    # "google": {
+    #     "alias": ["google", "g", "G"],
+    #     "func": search_google,
+    #     "help": "功能: 谷歌搜索\n使用: [{}] [关键字]\n备注: *关键字=[空格分割的汉字]"
+    # },
     "bus": {
         "alias": ["巴士", "bus", "Bus", "B", "b"],
         "func": request_bus,
