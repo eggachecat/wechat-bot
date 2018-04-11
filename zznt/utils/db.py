@@ -56,7 +56,10 @@ def search_image(query, callback):
         images.append((link, Type))
 
     ctr = 0
+    max_i = 100
     for i, (link, Type) in enumerate(images):
+        if i >= max_i:
+            break
         if ctr >= max_images:
             break
         if Type == 'jpg' or Type == 'png':
