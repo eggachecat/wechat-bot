@@ -134,7 +134,8 @@ def request_bus(params):
             response += "\n"
             response = _request_full_table(bus_name, response, 1)
             return response
-        except:
+        except Exception as e:
+            print(e)
             return "巴士名称错误(要全称啦)"
 
     if len(params) == 2:
