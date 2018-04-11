@@ -17,14 +17,9 @@ def download_page_from_url(url, max_seconds=5):
     ctr = 0
     while ctr < max_seconds:
         time.sleep(1)
-        print(ctr)
-        i = 0
+
         for line in iter(proc.stdout.readline, b''):
-            if i == ctr:
                 print(">>> {}".format(line.rstrip()))
-            if i > ctr:
-                break
-            i += 1
 
         if proc.poll() is None:
             ctr += 1
