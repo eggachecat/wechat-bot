@@ -13,15 +13,25 @@ def download_page_from_url(url, max_seconds=5):
         ["python", "{}".format(os.path.join(os.path.dirname(os.path.realpath(__file__)), "html_to_image.py")),
          "\"{}\"".format(url)],
         stdout=subprocess.PIPE)
+
     ctr = 0
     while ctr < max_seconds:
         time.sleep(1)
+        print(ctr)
+        i = 0
+        for line in iter(proc.stdout.readline, b''):
+            if i == ctr:
+                print(">>> {}".format(line.rstrip()))
+            if i > ctr:
+                break
+            i += 1
+
         if proc.poll() is None:
             ctr += 1
         else:
             rc = proc.returncode
+            print("rc code:", rc)
             if int(rc) == 10:
-                print("rc code:", rc)
                 return 10
             else:
                 return None

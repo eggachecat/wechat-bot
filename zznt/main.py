@@ -14,7 +14,7 @@ if not os.path.exists("./files/"):
 GLOBAL_USER_QUEUE = []
 GLOBAL_MESSAGE_QUEUE = {}
 
-print(search_google("腾讯", lambda x: 0))
+print(download_page_from_url('http://www.qq.com/'))
 exit()
 
 def print_help(config):
