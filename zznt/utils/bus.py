@@ -140,7 +140,6 @@ def request_bus(params):
 
     if len(params) == 2:
         stop_name = params[1]
-
         response = ""
 
         def summary(bus_name_, stop_name_, response_, direction_):
@@ -151,14 +150,14 @@ def request_bus(params):
 
             start_stop = stops_arr_[0][1]
             terminal_stop = stops_arr_[-1][1]
-            response_ += "[{b}], 方向[{o} -> {t}]\n[{s}]站信息: \n".format(b=bus_name, o=start_stop, t=terminal_stop,
-                                                                   s=stop_name__)
+            response_ += "方向: [{o}] -> [{t}]\n信息: ".format(o=start_stop, t=terminal_stop, )
             response_ += request_time(direction_, stop_id__, sid_)
-            return response_ + "\n"
+            return response_ + "\n", stop_name__
 
-        response = summary(bus_name, stop_name, response, 0)
+        response, _ = summary(bus_name, stop_name, response, 0)
         response += "\n"
-        response = summary(bus_name, stop_name, response, 1)
+        response, stop_name = summary(bus_name, stop_name, response, 1)
+        response = "[{b}]-[{s}]站:\n\n".format(b=bus_name, s=stop_name) + response
         return response
 
     if len(params) == 3:
@@ -172,6 +171,6 @@ def request_bus(params):
 
 
 if __name__ == '__main__':
-    print(request_bus("85路 17. 0"))
+    # print(request_bus("85路 17. 0"))
     print(request_bus("85路 居家桥"))
-    print(request_bus("85 居家桥"))
+    # print(request_bus("85 居家桥"))
