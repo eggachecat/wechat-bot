@@ -18,9 +18,6 @@ def download_page_from_url(url, max_seconds=5):
     while ctr < max_seconds:
         time.sleep(1)
 
-        for line in iter(proc.stdout.readline, b''):
-            print(">>> {}".format(line.rstrip()))
-
         if proc.poll() is None:
             ctr += 1
         else:
