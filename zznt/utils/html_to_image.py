@@ -14,6 +14,7 @@ def download_web_to_image(url):
 
 
 if __name__ == '__main__':
+    print(os.sys.argv[1])
     if 1 == download_web_to_image(os.sys.argv[1]):
         exit(10)
     else:
