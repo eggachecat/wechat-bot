@@ -9,10 +9,11 @@ import os
 
 
 def download_page_from_url(url, max_seconds=5):
-    proc = subprocess.Popen(
+    args = " ".join(
         ["python", "{}".format(os.path.join(os.path.dirname(os.path.realpath(__file__)), "html_to_image.py")),
-         "\"{}\"".format(url)],
-        stdout=subprocess.PIPE, shell=True)
+         "\"{}\"".format(url)])
+    print(args)
+    proc = subprocess.Popen(args, stdout=subprocess.PIPE, shell=True)
     proc.wait()
 
     ctr = 0
@@ -20,7 +21,7 @@ def download_page_from_url(url, max_seconds=5):
         time.sleep(1)
 
         for line in iter(proc.stdout.readline, b''):
-                print(">>> {}".format(line.rstrip()))
+            print(">>> {}".format(line.rstrip()))
 
         if proc.poll() is None:
             ctr += 1
