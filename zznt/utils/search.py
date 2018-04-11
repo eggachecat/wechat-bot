@@ -50,7 +50,7 @@ def search_google(query, callback):
     for result in results:
         try:
             print(result[1])
-            imgkit.from_url(result[1], "./search-output.jpg", options={})
+            imgkit.from_url(result[1], "./search-output.jpg", options={"width": 800, "quality": 50})
             callback("./search-output.jpg")
         except Exception as e:
             print(e)
@@ -58,5 +58,5 @@ def search_google(query, callback):
 
 
 if __name__ == '__main__':
-    print(search_wiki("尤文图斯", lambda x: 0))
+    print(search_google("腾讯", lambda x: 0))
     # print(search_google("日本动画2018 5", lambda x: time.sleep(5)))
