@@ -10,7 +10,7 @@ import os
 
 def download_page_from_url(url, max_seconds=5):
     proc = subprocess.Popen(
-        "python {} {}".format(os.path.join(os.path.dirname(os.path.realpath(__file__)), "html_to_image.py"), url),
+        "python {} \"{}\"".format(os.path.join(os.path.dirname(os.path.realpath(__file__)), "html_to_image.py"), url),
         stdout=subprocess.PIPE)
     ctr = 0
     while ctr < max_seconds:

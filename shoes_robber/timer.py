@@ -12,8 +12,13 @@ def call():
     print(datetime.now())
 
 
-GLOBAL_scheduler.enter(delay, 1, call)
-GLOBAL_scheduler.enter(delay + 1, 1, call)
-GLOBAL_scheduler.enter(delay + 2, 1, call)
+GLOBAL_scheduler.enter(1, 1, call)
+GLOBAL_scheduler.enter(1 + 1, 1, call)
+GLOBAL_scheduler.enter(1 + 2, 1, call)
 
-GLOBAL_scheduler.run()
+GLOBAL_scheduler.run(blocking=False)
+
+print("hello world")
+
+while True:
+    pass
