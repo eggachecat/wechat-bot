@@ -80,7 +80,7 @@ import json
 import time
 
 
-def convert_result_to_string(result):
+def convert_result_to_string(result, t_id=0):
     if result is None:
         return "等待发车"
 
@@ -97,12 +97,15 @@ def convert_result_to_string(result):
         if result["distance"] == "-":
             return "等待发车"
 
-    print(result)
-    template_str = "最近一辆[{}]: 牌照[{}], 还有[{}]站进站, 距离[{}]米, 预计[{}]到达."
-    return template_str.format(result["@attributes"]["cod"], result["terminal"],
-                               result["stopdis"], result["distance"],
-                               time.strftime("%H{H}%M{M}%S{S}",
-                                             time.gmtime(int(result["time"]))).format(H="时", M="分", S="秒"))
+    template_str = "牌照[{}], 还有[{}]站进站, 距离[{}]米, 预计[{}]到达."
+    result = template_str.format(result["@attributes"]["cod"], result["terminal"],
+                                 result["stopdis"], result["distance"],
+                                 time.strftime("%H{H}%M{M}%S{S}",
+                                               time.gmtime(int(result["time"]))).format(H="时", M="分", S="秒"))
+    if t_id == 0:
+        result = "最近一辆[{}]: ".format(["@attributes"]["cod"]) + result
+
+    return result
 
 
 from bs4 import BeautifulSoup
@@ -162,7 +165,66 @@ def request_stops(bud_id, direction=0):
     return direction, stops_arr, sid
 
 
+import editdistance
+
+
+def request_bus(params):
+    params = params.rstrip().lstrip()
+    params = params.split(" ")
+    print(len(params))
+    if len(params) == 1:
+        bus_name = params[0]
+        print("bus_name", bus_name)
+        try:
+            response = ""
+            direction = 0
+            direction, stops_arr, sid = request_stops(bus_name, direction=direction)
+            response += "方向[{}]\n".format(direction)
+            for stop in stops_arr:
+                response += "{} {}\n".format(stop[0], stop[1])
+            response += "\n"
+            direction = 1
+            direction, stops_arr, sid = request_stops(bus_name, direction=direction)
+            response += "方向[{}]\n".format(direction)
+            for stop in stops_arr:
+                response += "{} {}\n".format(stop[0], stop[1])
+
+            return response
+        except:
+            return "巴士名称错误(要全称啦)"
+
+    if len(params) == 2:
+        bus_name = params[0]
+        stop_name = params[1]
+
+        response = ""
+
+        def summary(response, direction):
+            direction, stops_arr, sid = request_stops(bus_name, direction=direction)
+            match_arr = [editdistance.eval(stop_name, stop[0]) for stop in stops_arr]
+            match_index = match_arr.index(min(match_arr))
+            response += "[{}]: [{}] -> [{}] 方向, 站头[{}], 信息: ".format()
+            response += convert_result_to_string(0, stops_arr[match_index][1], sid)
+            return response
+
+        response = summary(response, 0)
+        response = summary(response, 1)
+        return response
+
+    if len(params) == 3:
+        bus_name = params[0]
+        direction = int(params[1])
+        stop_id = params[2] if "." in params[2] else params[2] + "."
+        direction, stops_arr, sid = request_stops(bus_name, direction=direction)
+        return request_time(direction, stop_id, sid)
+
+    print(params)
+    return "巴士参数错误"
+
+
 if __name__ == '__main__':
+    request_bus("85 居家桥")
+
     direction, stops_arr, sid = request_stops("301路", direction=0)
     direction, stops_arr, sid = request_stops("301路", direction=1)
     print(request_time(direction, "23.", sid))

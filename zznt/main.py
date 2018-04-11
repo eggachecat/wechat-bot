@@ -1,9 +1,12 @@
+import os
+from collections import deque
+
 import itchat
 from itchat.content import *
-from db import *
 
-from collections import deque
-import os
+from utils.db import *
+from utils.bus import *
+from utils.wiki import *
 
 if not os.path.exists("./files/"):
     os.makedirs("./files/")
@@ -17,8 +20,6 @@ def print_help(config):
     for k, v in config.items():
         response += "\n\n"
         response += v["help"].format("/".join(v["alias"]))
-
-    print(response)
 
     return response
 
@@ -47,8 +48,10 @@ is_at_config = {
     "bus": {
         "alias": ["巴士", "bus", "Bus", "B", "b"],
         "func": request_bus,
-        "help": "功能: 查询公交即时信息\n使用: [{}] [公交车名称] [方向] [站号]\n \
-        备注[1]: *公交车名称=[注意全程], *方向=[0/1], *站号=[数字]; \n备注[2]: 如果不知道方向和数字可不填，会返回表再填"
+        "help": "功能: 查询公交即时信息\n使用: [{}] [公交车名称] [站] [方向]\n\
+        备注[1]: *站=[名称/数字], *方向=[0/1] \n\
+        备注[2]: 方向可以不填, 返回双向，\
+        备注[3]: 站可以不填, 返回列表"
     },
     "help": {
         "alias": ["帮助", "help", "h", "H"],
@@ -137,7 +140,6 @@ def GROUP_TEXT_HANDLER(msg):
 
 @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO], isGroupChat=True)
 def GROUP_FILES_HANDLER(msg):
-
     room_id = msg.FromUserName
     if room_id not in GLOBAL_MESSAGE_QUEUE:
         GLOBAL_MESSAGE_QUEUE[room_id] = deque(maxlen=100)
