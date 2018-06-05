@@ -90,7 +90,7 @@ def is_at_next(msg):
                 text = text[len(alias):]
                 if eventName == "read-data":
                     if "@" in text:
-                        name = text.split(atFlag if atFlag in text else " ")[0].replace("@", "").replace(" ", "")
+                        name = text.replace("@", "").replace(" ", "")
                     else:
                         name = text.replace(" ", "")
 
