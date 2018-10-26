@@ -37,5 +37,5 @@ def login_callback():
 
 
 if __name__ == '__main__':
-    itchat.auto_login(loginCallback=login_callback, hotReload=True)
+    itchat.auto_login(loginCallback=login_callback, hotReload=True, enableCmdQR=2)
     itchat.run(True)
