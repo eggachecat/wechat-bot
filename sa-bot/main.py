@@ -5,12 +5,12 @@ import time
 
 import itchat
 
-PREFIX = "清溪清我心"
-
 GLOBAL_scheduler = sched.scheduler(time.time, time.sleep)
 
 with open("./config.json", "r", encoding='UTF-8') as fp:
     CONFIG = json.load(fp)
+    PREFIX = CONFIG["prefix"]
+
     CHAT_ROOM_NAME = CONFIG["chat-room-name"]
     MESSAGE = CONFIG["message"]
     CLOCK = datetime.strptime(CONFIG["clock"], "%Y-%m-%d %H:%M:%S")
