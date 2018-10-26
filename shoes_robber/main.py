@@ -19,11 +19,11 @@ with open(file_name, "r", encoding="utf-8") as fp:
     ROBBERY_CONFIG = json.load(fp)
 
 WX_INFO = ROBBERY_CONFIG["info"]
-TARGET_MP = None
+CLASS_SIX_ROOM = None
 
 
 def login_callback():
-    global TARGET_MP
+    global CLASS_SIX_ROOM
     target_mp_nickname = ROBBERY_CONFIG["mp"]
     for member in itchat.get_mps():
         if member["NickName"] == target_mp_nickname:
