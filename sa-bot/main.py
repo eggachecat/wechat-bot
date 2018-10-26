@@ -31,7 +31,7 @@ def login_callback():
 
     now = datetime.now()
     delay = (CLOCK - now).total_seconds()
-    print("delay in %s seconds".format(delay))
+    print("delay in {} seconds".format(delay))
     GLOBAL_scheduler.enter(delay, 1, call)
     GLOBAL_scheduler.run()
 
