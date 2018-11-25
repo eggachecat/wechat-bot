@@ -2,6 +2,7 @@ import re
 
 
 def replace_size(string, size):
+    print(string, size)
     largest_index = len(string) - 1
     for i, c in enumerate(string):
         is_size = True
@@ -11,10 +12,10 @@ def replace_size(string, size):
 
         if c.isalpha():
             if 0 <= i - 1 <= largest_index:
-                if string[i - 1].isalpha():
+                if string[i - 1].isalpha() or string[i - 1].isdigit():
                     is_size = False
             if 0 <= i + 1 <= largest_index:
-                if string[i - 1].isalpha():
+                if string[i - 1].isalpha() or string[i - 1].isdigit():
                     is_size = False
 
         if is_size:
@@ -40,9 +41,10 @@ def replace_example(msg, id_, phone, size):
         return msg
 
 
-def test_replace():
-    print(replace_example("例如：15900000000,310221111111110000", "310227199406260019", "15900749626", "D"))
+def demo_replace():
+    print(replace_example("例如：15900000000,310221111111110000,Y", "310227199406260019", "15900749626", "D"))
+    print(replace_example("例如：15900000000,310221111111110000,Y", "31022719940626001X", "15900749626", "D"))
 
 
 if __name__ == '__main__':
-    test_replace()
+    demo_replace()
