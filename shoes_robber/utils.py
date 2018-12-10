@@ -1,27 +1,27 @@
 import re
 
-
 def replace_size(string, size):
-    print(string, size)
+    print(string,"<------>", size)
     largest_index = len(string) - 1
     for i, c in enumerate(string):
         is_size = True
 
-        if not c.isalpha():
-            is_size = False
-
-        if c.isalpha():
+        # size必须是字母
+        if c.encode( 'UTF-8' ).isalpha():
             if 0 <= i - 1 <= largest_index:
+                # 前一个是数字或者字母或者汉字
                 if string[i - 1].isalpha() or string[i - 1].isdigit():
                     is_size = False
             if 0 <= i + 1 <= largest_index:
+                # 后一个是数字或者字母或者汉字
                 if string[i - 1].isalpha() or string[i - 1].isdigit():
                     is_size = False
+        else:
+          is_size = False
 
         if is_size:
             return "".join([size if _i == i else _c for _i, _c in enumerate(string)])
     return string
-
 
 def replace_example(msg, id_, phone, size):
     print(msg, id_, phone)
